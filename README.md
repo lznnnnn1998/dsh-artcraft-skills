@@ -35,6 +35,27 @@ and no plugin entry. Use `--dsh-home` for another profile home, `--dry-run` to l
 Requirements: the ArtCraft plugins installed in the same DSH profile, and the applications' CLIs on
 the machine (`node scripts/install-craft.mjs` from the plugin repository).
 
+## The dependency on the plugin repository
+
+This repository is **decoupled** from the plugins but not independent of them: a skill executes
+nothing — every step is a tool call into `dsh-artcraft-plugin-<craft>`. That direction is one-way and
+is written down as a contract in [`compatibility.json`](compatibility.json):
+
+- `minimumPluginVersion` — the plugin release the recipes were verified against.
+- `skills.<name>.tools` — every tool a skill names, and the crafts it needs.
+
+Three scripts enforce it, so a mismatch fails before a user hits it:
+
+```sh
+node scripts/check-plugins.mjs              # plugins present, new enough, skills' crafts available
+node scripts/sync-compatibility.mjs         # regenerate the contract after editing a skill
+node scripts/sync-compatibility.mjs --check # CI: fail when the contract is stale
+```
+
+`scripts/install.mjs` runs the check first and refuses to install against older plugins
+(`--allow-older-plugins` overrides). When a plugin renames a tool, regenerate the contract, bump
+`minimumPluginVersion`, and the plugin release becomes the floor.
+
 ## Evidence, not assertion
 
 Every skill states what was verified and what was not:

@@ -27,6 +27,23 @@ DSH 从 `$DSH_HOME/skills/<name>/SKILL.md` 读取技能,所以安装就是复制
 
 前提:同一个 DSH profile 里装了 ArtCraft 插件,机器上装了各应用的 CLI(插件仓库里的 `node scripts/install-craft.mjs`)。
 
+## 与插件仓库的依赖关系
+
+本仓库与插件仓库是**解耦**的,但并不独立:技能本身不执行任何东西 —— 每一步都是对 `dsh-artcraft-plugin-<craft>` 的工具调用。这条依赖是单向的,并且写成了可检查的契约 [`compatibility.json`](compatibility.json):
+
+- `minimumPluginVersion` —— 配方验证时所用的插件版本下限
+- `skills.<name>.tools` —— 每个技能引用的所有工具,以及它需要的应用
+
+用三个脚本保证它不只是文档:
+
+```sh
+node scripts/check-plugins.mjs              # 插件是否已装、版本是否够、技能用到的应用是否都在
+node scripts/sync-compatibility.mjs         # 改完技能后重新生成契约
+node scripts/sync-compatibility.mjs --check # CI 用:契约过期就失败
+```
+
+`scripts/install.mjs` 会**先跑检查**,插件太旧则拒绝安装(`--allow-older-plugins` 可跳过)。插件一旦改名某个工具,重新生成契约并抬高 `minimumPluginVersion`,那个插件版本就成了新下限。
+
 ## 写的是证据,不是断言
 
 每个技能都写明了**验证过什么、没验证什么**。例如 `artcraft-report`:标题、正文、原生 Word 图表都实际产出,导出 PDF 后逐页渲染看过的;图表在 Word 里可编辑,而库方案只能塞一张图片。

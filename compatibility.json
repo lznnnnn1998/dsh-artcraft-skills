@@ -1,0 +1,93 @@
+{
+  "pluginRepository": "https://github.com/lznnnnn1998/dsh-artcraft",
+  "pluginPackages": "dsh-artcraft-plugin-<craft>",
+  "minimumPluginVersion": "0.2.4",
+  "notes": [
+    "A skill executes nothing on its own: every step calls a tool from the plugin repository.",
+    "minimumPluginVersion is the release the recipes in this repository were verified against.",
+    "A tool renamed or removed by a plugin breaks the skills that name it; this file is what the check reads."
+  ],
+  "skills": {
+    "artcraft": {
+      "tools": [],
+      "crafts": []
+    },
+    "artcraft-brand-kit": {
+      "tools": [
+        "designcraft_mcp_tools",
+        "designcraft_run",
+        "figcraft_convert",
+        "figcraft_inspect",
+        "figcraft_run"
+      ],
+      "crafts": [
+        "designcraft",
+        "figcraft"
+      ]
+    },
+    "artcraft-cad-set": {
+      "tools": [
+        "cadcraft_convert",
+        "cadcraft_run",
+        "pdfcraft_mcp_call"
+      ],
+      "crafts": [
+        "cadcraft",
+        "pdfcraft"
+      ]
+    },
+    "artcraft-convert": {
+      "tools": [
+        "cadcraft_convert",
+        "deckcraft_run",
+        "designcraft_run",
+        "figcraft_convert",
+        "filmcraft_run",
+        "lightcraft_run",
+        "pdfcraft_mcp_call",
+        "photocraft_run",
+        "soundcraft_run",
+        "vectorcraft_convert",
+        "wordcraft_convert"
+      ],
+      "crafts": [
+        "cadcraft",
+        "deckcraft",
+        "designcraft",
+        "figcraft",
+        "filmcraft",
+        "lightcraft",
+        "pdfcraft",
+        "photocraft",
+        "soundcraft",
+        "vectorcraft",
+        "wordcraft"
+      ]
+    },
+    "artcraft-explainer-video": {
+      "tools": [
+        "deckcraft_inspect",
+        "deckcraft_run",
+        "filmcraft_inspect",
+        "filmcraft_run"
+      ],
+      "crafts": [
+        "deckcraft",
+        "filmcraft"
+      ]
+    },
+    "artcraft-report-kit": {
+      "tools": [
+        "gridcraft_mcp_call",
+        "gridcraft_run",
+        "wordcraft_commands",
+        "wordcraft_mcp_call",
+        "wordcraft_run"
+      ],
+      "crafts": [
+        "gridcraft",
+        "wordcraft"
+      ]
+    }
+  }
+}

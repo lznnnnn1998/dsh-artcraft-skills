@@ -39,6 +39,19 @@ try {
   process.exit(1)
 }
 
+// The skills call the plugin tools, so install only when those are present and
+// new enough; a skill without its plugins fails at the moment a user needs it.
+if (!argv.includes('--allow-older-plugins')) {
+  try {
+    execFileSync(process.execPath, [join(root, 'scripts', 'check-plugins.mjs')], { cwd: root, stdio: 'pipe' })
+  } catch (error) {
+    console.error('plugin check failed; pass --allow-older-plugins to install anyway')
+    const detail = `${error.stdout ?? ''}${error.stderr ?? ''}`.trim() || error.message
+    console.error(detail.slice(0, 1200))
+    process.exit(1)
+  }
+}
+
 const skills = readdirSync(skillsRoot, { withFileTypes: true })
   .filter(entry => entry.isDirectory() && existsSync(join(skillsRoot, entry.name, 'SKILL.md')))
   .map(entry => entry.name)
