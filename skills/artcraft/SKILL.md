@@ -114,6 +114,14 @@ answer — each step carries its craft, command, duration and image.
 Crafts without a render recipe (PdfCraft, DesignCraft, FilmCraft need an MCP/PDF hop; SoundCraft
 has no page) still record steps; they just have no thumbnail.
 
+## When a workflow's partner is missing
+
+A workflow spans applications, and a machine often has only part of one. The plugins expose their
+workflow partners in the prompt, and the plugin repository's `node scripts/doctor.mjs` reports the
+whole suite (craft plugins, their CLIs, the preview panel, these skills) plus the missing partners
+of workflows already started. When a step needs a craft that is not installed, say which plugin
+provides it and offer to install it rather than substituting a different tool.
+
 ## Companion skills
 
 - `artcraft-report` — a data-backed report or brief: GridCraft figures, a WordCraft document with
