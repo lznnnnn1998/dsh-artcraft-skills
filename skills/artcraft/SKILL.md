@@ -99,6 +99,21 @@ FigCraft's MCP server ships prompts for common jobs (`mobile_screen`, `design_sy
 document, the command catalogue and comments. `<craft>_mcp_tools` lists them; read the named
 prompt to follow the app's own recipe before improvising one.
 
+## Watch the document change
+
+A call that writes a document also renders it, and the plugin returns that image with the result.
+Ten of the fourteen crafts have a render recipe, so after `<craft>_run` you can *see* the page,
+slide, drawing or texture instead of assuming it worked — check it before the next step, exactly as
+`read_image` does for a returned preview.
+
+The same renders feed a local panel (`http://127.0.0.1:4177`, started by the preview panel plugin
+or by `node scripts/preview/server.mjs`): step list, current render, filmstrip of earlier steps,
+and a timeline for time-based crafts. When the user asks "where did that step go", the panel is the
+answer — each step carries its craft, command, duration and image.
+
+Crafts without a render recipe (PdfCraft, DesignCraft, FilmCraft need an MCP/PDF hop; SoundCraft
+has no page) still record steps; they just have no thumbnail.
+
 ## Companion skills
 
 - `artcraft-report` — a data-backed report or brief: GridCraft figures, a WordCraft document with
